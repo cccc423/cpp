@@ -150,7 +150,7 @@ int main() {
     int game_step = 0;
 
     srand(time(NULL));
-    
+
     std::string field[ROW][COL];
 
     for (int i = 0; i < ROW; i++) {
@@ -217,6 +217,6 @@ int main() {
             break;
         }
     }
-    system("pause");
+
     return 0;
 }
