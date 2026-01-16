@@ -5,139 +5,139 @@
 const int ROW = 3;
 const int COL = 3;
 
-void enemy_move(std::string arr[ROW][COL], int used[9], int step) {
-    int r;
-    int c;
-    int choice;
+void bot_move(std::string field[ROW][COL], int used_cells[9], int game_step) {
+    int random_row, random_col, interpreted_choice;
 
     while (true) {
-        r = rand() % 3;
-        c = rand() % 3;
+        random_row = rand() % 3;
+        random_col = rand() % 3;
         
-        if (arr[r][c] != "x" && arr[r][c] != "o") {
-            arr[r][c] = "o";
-            if ((r == 0) && (c == 0)) {
-                choice = 0;
+        if (field[random_row][random_col] != "x" && field[random_row][random_col] != "o") {
+            field[random_row][random_col] = "o";
+            if ((random_row == 0) && (random_col == 0)) {
+                interpreted_choice = 0;
             }
-            if ((r == 0) && (c == 1)) {
-                choice = 1;
+            if ((random_row == 0) && (random_col == 1)) {
+                interpreted_choice = 1;
             }
-            if ((r == 0) && (c == 2)) {
-                choice = 2;
+            if ((random_row == 0) && (random_col == 2)) {
+                interpreted_choice = 2;
             }
-            if ((r == 1) && (c == 0)) {
-                choice = 3;
+            if ((random_row == 1) && (random_col == 0)) {
+                interpreted_choice = 3;
             }
-            if ((r == 1) && (c == 1)) {
-                choice = 4;
+            if ((random_row == 1) && (random_col == 1)) {
+                interpreted_choice = 4;
             }
-            if ((r == 1) && (c == 2)) {
-                choice = 5;
+            if ((random_row == 1) && (random_col == 2)) {
+                interpreted_choice = 5;
             }
-            if ((r == 2) && (c == 0)) {
-                choice = 6;
+            if ((random_row == 2) && (random_col == 0)) {
+                interpreted_choice = 6;
             }
-            if ((r == 2) && (c == 1)) {
-                choice = 7;
+            if ((random_row == 2) && (random_col == 1)) {
+                interpreted_choice = 7;
             }
-            if ((r == 2) && (c == 2)) {
-                choice = 8;
+            if ((random_row == 2) && (random_col == 2)) {
+                interpreted_choice = 8;
             }
-            used[step] = choice;
+            used_cells[game_step] = interpreted_choice;
             break;
         }
     }
 }
 
-void print_arr(std::string arr[ROW][COL]) {
+void print_array(std::string field[ROW][COL]) {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            std::cout << arr[i][j];
+            std::cout << field[i][j];
         }
         std::cout << std::endl;
     }
 }
 
-int choice_(int choice, int arr[9]) {
-    bool good = 0;
-    std::cout << "Enter your move (0-8): ";
-    while(!good) {
-        std::cin >> choice;
+int choice_handler(int user_choice, int used_cells[9]) {
+    bool is_a_good_choice = 0;
 
-        if (choice < 0 || choice > 8) {
+    std::cout << "Enter your move (0-8): ";
+
+    while(!is_a_good_choice) {
+        std::cin >> user_choice;
+
+        if (user_choice < 0 || user_choice > 8) {
             std::cout << "Invalid choice! Enter 0-8: ";
             continue;
         }
 
-        good = 1;
+        is_a_good_choice = 1;
         
         for (int i = 0; i < 9; i++) {
-            if (choice == arr[i]) {
+            if (user_choice == used_cells[i]) {
                 std::cout << "Cell is occupied!" << std::endl;
                 std::cout << "Try again: ";
-                good = 0;
+                is_a_good_choice = 0;
                 break;
             }
         }
     }
     
-    return choice;
+    return user_choice;
 }
 
-bool check_win(std::string arr[ROW][COL], int used[9]) {
-    if (used[8] != -1) {
+bool check_end(std::string field[ROW][COL], int used_cells[9]) {
+    if (used_cells[8] != -1) {
         std::cout << "Draw" << std::endl;
         return 1;
     }
 
-    if (arr[0][0] == "x" && arr[0][1] == "x" && arr[0][2] == "x") {
+    if (field[0][0] == "x" && field[0][1] == "x" && field[0][2] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[1][0] == "x" && arr[1][1] == "x" && arr[1][2] == "x") {
+    } else if (field[1][0] == "x" && field[1][1] == "x" && field[1][2] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[2][0] == "x" && arr[2][1] == "x" && arr[2][2] == "x") {
+    } else if (field[2][0] == "x" && field[2][1] == "x" && field[2][2] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[0][0] == "x" && arr[1][0] == "x" && arr[2][0] == "x") {
+    } else if (field[0][0] == "x" && field[1][0] == "x" && field[2][0] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[0][1] == "x" && arr[1][1] == "x" && arr[2][1] == "x") {
+    } else if (field[0][1] == "x" && field[1][1] == "x" && field[2][1] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[0][2] == "x" && arr[1][2] == "x" && arr[2][2] == "x") {
+    } else if (field[0][2] == "x" && field[1][2] == "x" && field[2][2] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[0][0] == "x" && arr[1][1] == "x" && arr[2][2] == "x") {
+    } else if (field[0][0] == "x" && field[1][1] == "x" && field[2][2] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
-    } else if (arr[0][2] == "x" && arr[1][1] == "x" && arr[2][0] == "x") {
+    } else if (field[0][2] == "x" && field[1][1] == "x" && field[2][0] == "x") {
         std::cout << "X won" << std::endl;
         return 1;
     }
 
-    if (arr[0][0] == "o" && arr[0][1] == "o" && arr[0][2] == "o") {
+    if (field[0][0] == "o" && field[0][1] == "o" && field[0][2] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[1][0] == "o" && arr[1][1] == "o" && arr[1][2] == "o") {
+    } else if (field[1][0] == "o" && field[1][1] == "o" && field[1][2] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[2][0] == "o" && arr[2][1] == "o" && arr[2][2] == "o") {
+    } else if (field[2][0] == "o" && field[2][1] == "o" && field[2][2] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[0][0] == "o" && arr[1][0] == "o" && arr[2][0] == "o") {
+    } else if (field[0][0] == "o" && field[1][0] == "o" && field[2][0] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[0][1] == "o" && arr[1][1] == "o" && arr[2][1] == "o") {
+    } else if (field[0][1] == "o" && field[1][1] == "o" && field[2][1] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[0][2] == "o" && arr[1][2] == "o" && arr[2][2] == "o") {
+    } else if (field[0][2] == "o" && field[1][2] == "o" && field[2][2] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[0][0] == "o" && arr[1][1] == "o" && arr[2][2] == "o") {
+    } else if (field[0][0] == "o" && field[1][1] == "o" && field[2][2] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
-    } else if (arr[0][2] == "o" && arr[1][1] == "o" && arr[2][0] == "o") {
+    } else if (field[0][2] == "o" && field[1][1] == "o" && field[2][0] == "o") {
         std::cout << "O won" << std::endl;
         return 1;
     }
@@ -146,79 +146,77 @@ bool check_win(std::string arr[ROW][COL], int used[9]) {
 }
 
 int main() {
-    srand(time(NULL));
-    short int choice;
-    bool winner = 0;
-    int step = 0;
+    short int choice = -1;
+    int game_step = 0;
 
-    std::string arr[ROW][COL];
+    srand(time(NULL));
+    
+    std::string field[ROW][COL];
 
     for (int i = 0; i < ROW; i++) {
         for (int j = 0; j < COL; j++) {
-            arr[i][j] = ".";
+            field[i][j] = ".";
         }
     }
 
-    int used_nums[9];
+    int used_cells[9];
 
     for (int i = 0; i < 9; i++) {
-        used_nums[i] = -1;
+        used_cells[i] = -1;
     }
 
-    while (!winner) {
-        print_arr(arr);
-        choice = choice_(choice, used_nums);
+    while (true) {
+        print_array(field);
+        choice = choice_handler(choice, used_cells);
 
-        used_nums[step] = choice;
-        step++;
+        used_cells[game_step] = choice;
+        game_step++;
 
         switch(choice) {
             case(0):
-                arr[0][0] = "x";
+                field[0][0] = "x";
                 break;
             case(1):
-                arr[0][1] = "x";
+                field[0][1] = "x";
                 break;
             case(2):
-                arr[0][2] = "x";
+                field[0][2] = "x";
                 break;
             case(3):
-                arr[1][0] = "x";
+                field[1][0] = "x";
                 break;
             case(4):
-                arr[1][1] = "x";
+                field[1][1] = "x";
                 break;
             case(5):
-                arr[1][2] = "x";
+                field[1][2] = "x";
                 break;
             case(6):
-                arr[2][0] = "x";
+                field[2][0] = "x";
                 break;
             case(7):
-                arr[2][1] = "x";
+                field[2][1] = "x";
                 break;
             case(8):
-                arr[2][2] = "x";
+                field[2][2] = "x";
                 break;
             default:
                 std::cout << "Wrong choice!" << std::endl;
         }
 
-        if (check_win(arr, used_nums)) {
-            winner = 1;
-            print_arr(arr);
+        if (check_end(field, used_cells)) {
+            print_array(field);
             break;
         }
 
-        enemy_move(arr, used_nums, step);
-        step++;
+        bot_move(field, used_cells, game_step);
+        game_step++;
 
-        if (check_win(arr, used_nums)) {
-            winner = 1;
-            print_arr(arr);
+        if (check_end(field, used_cells)) {
+            print_array(field);
+            break;
         }
     }
     system("pause");
     return 0;
-
 }
